@@ -2,15 +2,17 @@
 
 Shows joining a C* table to a CSV file. What could be more fun than that? Lots of things, actually, but stop complaining. This is still kind of sick if you think about it.
 
-## Steps
+## Initializing the C* Data
 
-Set up the schema in `cqlsh` as follows:
+Do these things in `cqlsh` and live:
+
 1. `SOURCE 'schema.cql'`
 2. `COPY movies from 'movies.csv'`
 2. `COPY movie-genres from 'movie-genres.csv'`
 
 ### In Spark Shell
 
+Do actual Spark things now:
 
 ```scala
 
