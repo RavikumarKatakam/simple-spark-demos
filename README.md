@@ -28,9 +28,13 @@ ratings.map{ line =>
              val fields = line.split(',')
              (java.util.UUID.fromString(fields(0)),fields(1).toFloat) }
 
-// Profit
-val ratedMovies = movies.join(ratingsByID)
+val movies = sc.cassandraTable("killr_video","movies").as( (i:String,y:Int,t:String) => (java.util.UUID.fromString(i),t))
 
-// Or some such violence
+val ratingCount = ratingsByID.mapValues(v => 1).reduceByKey(_+_)
+val ratingSums = ratingsByID.reduceByKey(_ + _)
+val averageRatings = ratingCount.join(ratingSums).mapValues(r => r._2 / r._1)
+
+val ratedMovies = movies.join(averageRatings)
+
 ratedMovies.collect
 ```
